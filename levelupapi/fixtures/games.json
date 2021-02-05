@@ -1,0 +1,13 @@
+[
+    {
+        "model": "levelupapi.game",
+        "pk": 1,
+        "fields": {
+            "gamer": 1,
+            "title": "Chess",
+            "game_type": 1,
+            "number_of_players": 2,
+            "description": "It's chess, you idiot."
+        }
+    }
+]
