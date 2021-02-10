@@ -6,7 +6,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from levelupapi.models import Game, GameType, Gamer
+from levelupapi.models import Game, Game_Type, Gamer
 
 
 class Games(ViewSet):
@@ -35,7 +35,7 @@ class Games(ViewSet):
         # Use the Django ORM to get the record from the database
         # whose `id` is what the client passed as the
         # `gameTypeId` in the body of the request.
-        gametype = GameType.objects.get(pk=request.data["gameTypeId"])
+        gametype = Game_Type.objects.get(pk=request.data["gameTypeId"])
         game.gametype = gametype
 
         # Try to save the new game to the database, then
@@ -90,7 +90,7 @@ class Games(ViewSet):
         game.skill_level = request.data["skillLevel"]
         game.gamer = gamer
 
-        gametype = GameType.objects.get(pk=request.data["gameTypeId"])
+        gametype = Game_Type.objects.get(pk=request.data["gameTypeId"])
         game.gametype = gametype
         game.save()
 
@@ -146,5 +146,5 @@ class GameSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Game
-        fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level', 'gametype')
+        fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level', 'game_type')
         depth = 1
