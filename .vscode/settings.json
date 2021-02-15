@@ -6,5 +6,6 @@
             "name": "levelup",
             "database": "db.sqlite3"
         }
-    ]
+    ],
+    "python.pythonPath": "/home/heath/.local/share/virtualenvs/levelup-WDR6PjCw/bin/python"
 }
