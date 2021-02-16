@@ -18,7 +18,7 @@ class Profile(ViewSet):
             Response -- JSON representation of user info and events
         """
         gamer = Gamer.objects.get(user=request.auth.user)
-        events = Event.objects.filter(registrations__gamer=gamer)
+        events = Event.objects.filter(organizer=gamer)
 
         events = EventSerializer(
             events, many=True, context={'request': request})
@@ -53,7 +53,7 @@ class GameSerializer(serializers.ModelSerializer):
     """JSON serializer for games"""
     class Meta:
         model = Game
-        fields = ('title',)
+        fields = ('title', )
 
 
 class EventSerializer(serializers.ModelSerializer):
