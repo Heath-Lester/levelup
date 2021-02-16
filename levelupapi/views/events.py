@@ -48,7 +48,7 @@ class Events(ViewSet):
             event = Event.objects.get(pk=pk)
             serializer = EventSerializer(event, context={'request': request})
             return Response(serializer.data)
-        except Exception:
+        except Exception as ex:
             return HttpResponseServerError(ex)
 
     def update(self, request, pk=None):
@@ -95,7 +95,19 @@ class Events(ViewSet):
         Returns:
             Response -- JSON serialized list of events
         """
+        gamer = Gamer.objects.get(user=request.auth.user)
         events = Event.objects.all()
+
+         # Set the `joined` property on every event
+        for event in events:
+            event.joined = None
+
+            try:
+                Event_Gamer.objects.get(event=event, gamer=gamer)
+                event.joined = True
+            except Event_Gamer.DoesNotExist:
+                event.joined = False
+
 
         # Support filtering events by game
         game = self.request.query_params.get('gameId', None)
@@ -192,10 +204,14 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ('id', 'game', 'organizer',
-                  'description', 'date', 'time')
+                  'description', 'date', 'time', 'joined')
 
 class GameSerializer(serializers.ModelSerializer):
-    """JSON serializer for games"""
+    """JSON serializer for games
+    
+    Arguments:
+        serializer type
+    """
     class Meta:
         model = Game
         fields = ('id', 'title', 'maker', 'number_of_players', 'skill_level')
