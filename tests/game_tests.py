@@ -153,7 +153,7 @@ class GameTests(APITestCase):
         Ensure we can delete an existing game.
         """
         game = Game()
-        game.game_pytype_id = 1
+        game.game_type_id = 1
         game.skill_level = 5
         game.title = "Sorry"
         game.maker = "Milton Bradley"
